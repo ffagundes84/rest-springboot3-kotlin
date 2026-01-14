@@ -1,10 +1,10 @@
-package br.com.ffagundes.RestApiSample
+package br.com.ffagundes.restapisample
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class RestApiSampleApplicationTests {
+class StartupTests {
 
 	@Test
 	fun contextLoads() {

@@ -1,11 +1,11 @@
-package br.com.ffagundes.RestApiSample
+package br.com.ffagundes.restapisample
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class RestApiSampleApplication
+class Startup
 
 fun main(args: Array<String>) {
-	runApplication<RestApiSampleApplication>(*args)
+	runApplication<Startup>(*args)
 }
