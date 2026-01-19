@@ -1,6 +1,6 @@
 package br.com.ffagundes.restapisample.application.controller
 
-import br.com.ffagundes.restapisample.domain.Greeting
+import br.com.ffagundes.restapisample.domain.service.Greeting
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController

@@ -1,4 +1,4 @@
-package br.com.ffagundes.restapisample.domain
+package br.com.ffagundes.restapisample.domain.service
 
 class MathSerivce {
     fun sum (numberOne: Double, numberTwo: Double) = numberOne.plus(numberTwo)

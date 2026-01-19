@@ -1,9 +1,8 @@
 package br.com.ffagundes.restapisample.application.controller
 
 import br.com.ffagundes.restapisample.application.extensions.StringExtension.isNumber
-import br.com.ffagundes.restapisample.domain.MathSerivce
+import br.com.ffagundes.restapisample.domain.service.MathSerivce
 import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
