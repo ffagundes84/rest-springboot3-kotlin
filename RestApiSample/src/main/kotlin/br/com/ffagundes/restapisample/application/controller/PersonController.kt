@@ -1,7 +1,7 @@
 package br.com.ffagundes.restapisample.application.controller
 
 import br.com.ffagundes.restapisample.domain.service.PersonService
-import br.com.ffagundes.restapisample.resource.Person
+import br.com.ffagundes.restapisample.resource.model.Person
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PathVariable
