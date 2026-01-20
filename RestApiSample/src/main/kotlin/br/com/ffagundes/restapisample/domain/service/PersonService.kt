@@ -19,7 +19,7 @@ class PersonService {
     fun findById(id: Int): Person {
         logger.info("finding person by id: $id")
         return personRepository.findById(id)
-            .orElseThrow { ResourceNotFoundException("No record found for this id.") }
+            .orElseThrow { ResourceNotFoundException("No record found for this id") }
     }
 
     fun findAll(): List<Person> {
@@ -31,7 +31,7 @@ class PersonService {
         logger.info("saving one person with name: ${person.firstName}")
         return personRepository.save(person)
     }
-    fun update(person: Person) {
+    fun update(person: Person) : Person {
         logger.info("updating one person with name: ${person.firstName}")
         val entity = personRepository.findById(person.id)
             .orElseThrow { ResourceNotFoundException("Record not found to update") }
@@ -40,21 +40,13 @@ class PersonService {
         entity.lastName = person.lastName
         entity.address = person.address
         entity.gender = person.gender
+
+        return personRepository.save(entity)
     }
     fun delete(id: Int) {
         logger.info("deleting one person with id: $id")
         val entity = personRepository.findById(id)
             .orElseThrow { ResourceNotFoundException("Record not found to delete") }
         personRepository.delete(entity)
-    }
-
-    companion object {
-        fun getPersonMock(id: Long, index: Int) = Person(
-            id = id,
-            firstName = "Person $index",
-            lastName = "Last Name $index",
-            address = "Address $index",
-            gender = "male"
-            )
     }
 }
