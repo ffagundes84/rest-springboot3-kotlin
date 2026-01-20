@@ -1,7 +1,7 @@
 package br.com.ffagundes.restapisample.application.controller
 
+import br.com.ffagundes.restapisample.application.data.vo.v1.PersonVO
 import br.com.ffagundes.restapisample.domain.service.PersonService
-import br.com.ffagundes.restapisample.resource.model.Person
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -15,24 +15,24 @@ class PersonController {
 
     @GetMapping(value = ["/{id}"],
         produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun findById(@PathVariable("id") id: Int) : Person {
+    fun findById(@PathVariable("id") id: Int) : PersonVO {
         return service.findById(id)
     }
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun findAll(): List<Person> {
+    fun findAll(): List<PersonVO> {
         return service.findAll()
     }
 
     @PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun create(@RequestBody person: Person): Person {
-        return service.create(person)
+    fun create(@RequestBody Person: PersonVO): PersonVO {
+        return service.create(Person)
     }
 
     @PutMapping(consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun update(@RequestBody person: Person): Person {
+    fun update(@RequestBody person: PersonVO): PersonVO {
         return service.update(person)
     }
 

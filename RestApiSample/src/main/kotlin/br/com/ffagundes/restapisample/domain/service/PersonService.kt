@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service
 import java.util.*
 import java.util.concurrent.atomic.AtomicLong
 import java.util.logging.Logger
-import kotlin.collections.ArrayList
 
 @Service
 class PersonService {
