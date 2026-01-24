@@ -26,8 +26,8 @@ class PersonController {
 
     @PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun create(@RequestBody Person: PersonVO): PersonVO {
-        return service.create(Person)
+    fun create(@RequestBody person: PersonVO): PersonVO {
+        return service.create(person)
     }
 
     @PutMapping(consumes = [MediaType.APPLICATION_JSON_VALUE],
