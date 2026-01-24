@@ -1,8 +1,10 @@
 package br.com.ffagundes.restapisample.domain.service
 
 import br.com.ffagundes.restapisample.application.data.vo.v1.PersonVO
+import br.com.ffagundes.restapisample.application.data.vo.v2.PersonVO as PersonVOV2
 import br.com.ffagundes.restapisample.application.exceptions.ResourceNotFoundException
 import br.com.ffagundes.restapisample.application.mapper.ModelMapper
+import br.com.ffagundes.restapisample.application.mapper.custom.PersonMapper
 import br.com.ffagundes.restapisample.resource.model.Person
 import br.com.ffagundes.restapisample.resource.repository.PersonRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,16 +35,16 @@ class PersonService {
             PersonVO::class.java
         )
     }
+    fun createV2(personVO: PersonVOV2) : PersonVOV2 {
+        logger.info("saving one person with name: ${personVO.firstName} - v2")
+        logger.info("object: $personVO - v2")
+        return PersonMapper.entityToVO(personRepository.save(PersonMapper.voToEntity(personVO)))
+    }
     fun update(personVO: PersonVO) : PersonVO {
         logger.info("updating one person with name: ${personVO.firstName}")
         logger.info("object personVO: $personVO")
-        val entity = personRepository.findById(personVO.id)
+        personRepository.findById(personVO.id)
             .orElseThrow { ResourceNotFoundException("Record not found to update") }
-
-        entity.firstName = personVO.firstName
-        entity.lastName = personVO.lastName
-        entity.address = personVO.address
-        entity.gender = personVO.gender
 
         return ModelMapper.parseObject(
             personRepository.save(ModelMapper.parseObject(personVO, Person::class.java)),
