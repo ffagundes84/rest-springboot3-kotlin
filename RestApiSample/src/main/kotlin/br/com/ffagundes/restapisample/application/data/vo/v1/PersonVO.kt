@@ -1,9 +1,12 @@
 package br.com.ffagundes.restapisample.application.data.vo.v1
+import com.github.dozermapper.core.Mapping
+import org.springframework.hateoas.RepresentationModel
 
 data class PersonVO(
-    var id: Int = 0,
+    @Mapping("id")
+    var key: Int = 0,
     var firstName: String = "",
     var lastName: String = "",
     var address: String = "",
     var gender: String = ""
-)
+) : RepresentationModel<PersonVO>()

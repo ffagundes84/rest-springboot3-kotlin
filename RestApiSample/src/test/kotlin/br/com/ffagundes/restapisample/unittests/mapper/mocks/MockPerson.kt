@@ -29,23 +29,23 @@ class MockPerson {
         return persons
     }
 
-    private fun mockEntity(number: Int): Person {
+    fun mockEntity(number: Int): Person {
         val person = Person()
-        person.address = "Address Test$number"
-        person.firstName = "First Name Test$number"
-        person.gender = if (number % 2 == 0) "Male" else "Female"
+        person.address = "Address Test - $number"
+        person.firstName = "First Name Test - $number"
+        person.gender = if (number % 2 == 0) "Female" else "Male"
         person.id = number
-        person.lastName = "Last Name Test$number"
+        person.lastName = "Last Name Test - $number"
         return person
     }
 
-    private fun mockVO(number: Int): PersonVO {
+    fun mockVO(number: Int): PersonVO {
         val person = PersonVO()
-        person.address = "Address Test$number"
-        person.firstName = "First Name Test$number"
-        person.gender = if (number % 2 == 0) "Male" else "Female"
-        person.id = number
-        person.lastName = "Last Name Test$number"
+        person.address = "Address Test - $number"
+        person.firstName = "First Name Test - $number"
+        person.gender = if (number % 2 == 0) "Female" else "Male"
+        person.key = number
+        person.lastName = "Last Name Test - $number"
         return person
     }
 }
