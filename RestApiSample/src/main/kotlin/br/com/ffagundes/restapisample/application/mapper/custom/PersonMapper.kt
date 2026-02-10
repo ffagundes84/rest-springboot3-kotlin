@@ -7,7 +7,7 @@ import java.util.*
 object PersonMapper {
     fun voToEntity(personVO: PersonVO): Person {
         return Person(
-            id = personVO.id,
+            id = personVO.key,
             firstName = personVO.firstName,
             lastName = personVO.lastName,
             address = personVO.address,
@@ -16,7 +16,7 @@ object PersonMapper {
     }
     fun entityToVO(entity: Person): PersonVO {
         return PersonVO(
-            id = entity.id,
+            key = entity.id,
             firstName = entity.firstName,
             lastName = entity.lastName,
             address = entity.address,

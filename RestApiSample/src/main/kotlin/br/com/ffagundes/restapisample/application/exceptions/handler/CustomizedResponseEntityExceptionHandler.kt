@@ -1,5 +1,9 @@
-package br.com.ffagundes.restapisample.application.exceptions
+package br.com.ffagundes.restapisample.application.exceptions.handler
 
+import br.com.ffagundes.restapisample.application.exceptions.ExceptionResponse
+import br.com.ffagundes.restapisample.application.exceptions.RequiredObjectIsNullException
+import br.com.ffagundes.restapisample.application.exceptions.ResourceNotFoundException
+import br.com.ffagundes.restapisample.application.exceptions.UnsupportedMathOperationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -32,7 +36,10 @@ class CustomizedResponseEntityExceptionHandler : ResponseEntityExceptionHandler(
         )
         return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.BAD_REQUEST)
     }
-    @ExceptionHandler(ResourceNotFoundException::class)
+    @ExceptionHandler(ResourceNotFoundException::class,
+        RequiredObjectIsNullException::class
+    )
+
     fun handlerResourceNotFoundException(exception: Exception, request: WebRequest) : ResponseEntity<ExceptionResponse> {
         val exceptionResponse = ExceptionResponse(
             Date(),
