@@ -1,0 +1,165 @@
+package br.com.ffagundes.restapisample.domain.mockito.service
+
+import br.com.ffagundes.restapisample.application.exceptions.RequiredObjectIsNullException
+import br.com.ffagundes.restapisample.domain.service.BookService
+import br.com.ffagundes.restapisample.resource.repository.BookRepository
+import br.com.ffagundes.restapisample.unittests.mapper.mocks.MockBook
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.MockitoAnnotations
+import org.mockito.junit.jupiter.MockitoExtension
+import java.time.LocalDateTime
+import java.util.*
+
+@ExtendWith(MockitoExtension::class)
+class BookServiceTest {
+    private lateinit var inputObject: MockBook
+    @InjectMocks
+    private lateinit var service: BookService
+    @Mock
+    private lateinit var repository: BookRepository
+
+    @BeforeEach
+    fun setUp() {
+        inputObject = MockBook()
+        MockitoAnnotations.openMocks(this)
+    }
+
+    @Test
+    fun findById() {
+        val id = 1
+        val date = LocalDateTime.now()
+        val book = inputObject.mockEntity(id)
+
+        `when`(repository.findById(id)).thenReturn(Optional.of(book))
+
+        val result = service.findById(id)
+
+        assertNotNull(result)
+        assertNotNull(result.key)
+        assertNotNull(result.links)
+        assertTrue(result.links.toString().contains("</api/book/v1/1>;rel=\"self\""))
+        assertEquals("Author 1", result.author)
+        assertEquals("Title 1", result.title)
+        assertEquals(date.toLocalDate(), result.launchDate.toLocalDate())
+        assertEquals("1.0".toDouble(), result.price)
+        assertEquals("1".toInt(), result.key)
+    }
+
+    @Test
+    fun findAll() {
+        val date = LocalDateTime.now()
+        val sourceList = inputObject.mockEntityList()
+        `when`(repository.findAll()).thenReturn(sourceList)
+
+        val books = service.findAll()
+        assertNotNull(books)
+        assertEquals(11, books.size)
+
+        val bookOne = books[1]
+        assertNotNull(bookOne)
+        assertNotNull(bookOne.key)
+        assertNotNull(bookOne.links)
+        assertTrue(bookOne.links.toString().contains("</api/book/v1/1>;rel=\"self\""))
+        assertEquals("Author 1", bookOne.author)
+        assertEquals("Title 1", bookOne.title)
+        assertEquals(date.toLocalDate(), bookOne.launchDate.toLocalDate())
+        assertEquals("1.0".toDouble(), bookOne.price)
+        assertEquals("1".toInt(), bookOne.key)
+
+        val bookFour = books[4]
+        assertNotNull(bookFour)
+        assertNotNull(bookFour.key)
+        assertNotNull(bookFour.links)
+        assertTrue(bookFour.links.toString().contains("</api/book/v1/4>;rel=\"self\""))
+        assertEquals("Author 4", bookFour.author)
+        assertEquals("Title 4", bookFour.title)
+        assertEquals(date.toLocalDate(), bookFour.launchDate.toLocalDate())
+        assertEquals("4.0".toDouble(), bookFour.price)
+        assertEquals("4".toInt(), bookFour.key)
+    }
+
+    @Test
+    fun create() {
+        val id = 1
+        val date = LocalDateTime.now()
+        val entity = inputObject.mockEntity(id, date)
+        val persisted = entity.copy()
+
+        `when`(repository.save(entity)).thenReturn(persisted)
+
+        val bookVO = inputObject.mockVO(id, date)
+        val result = service.create(bookVO)
+
+        assertNotNull(result)
+        assertNotNull(result.key)
+        assertNotNull(result.links)
+        assertTrue(result.links.toString().contains("</api/book/v1/1>;rel=\"self\""))
+        assertEquals("Author 1", result.author)
+        assertEquals("Title 1", result.title)
+        assertEquals(date.toLocalDate(), result.launchDate.toLocalDate())
+        assertEquals("1.0".toDouble(), result.price)
+        assertEquals("1".toInt(), result.key)
+    }
+
+    @Test
+    fun update() {
+        val id = 1
+        val date = LocalDateTime.now()
+        val entity = inputObject.mockEntity(id, date)
+        val persisted = entity.copy()
+
+        `when`(repository.findById(id)).thenReturn(Optional.of(entity))
+        `when`(repository.save(entity)).thenReturn(persisted)
+
+        val bookVO = inputObject.mockVO(id, date)
+        val result = service.update(bookVO)
+
+        assertNotNull(result)
+        assertNotNull(result.key)
+        assertNotNull(result.links)
+        assertTrue(result.links.toString().contains("</api/book/v1/1>;rel=\"self\""))
+        assertEquals("Author 1", result.author)
+        assertEquals("Title 1", result.title)
+        assertEquals(date.toLocalDate(), result.launchDate.toLocalDate())
+        assertEquals("1.0".toDouble(), result.price)
+        assertEquals("1".toInt(), result.key)
+    }
+
+    @Test
+    fun delete() {
+        val id = 1
+        val book = inputObject.mockEntity(id)
+
+        `when`(repository.findById(id)).thenReturn(Optional.of(book))
+
+        service.delete(id)
+    }
+
+    @Test
+    fun createWithNullBook() {
+        val exception: Exception = assertThrows (
+            RequiredObjectIsNullException::class.java
+        ) { service.create(null) }
+
+        assertTrue(exception.message.toString().contains("The input object is null"))
+    }
+
+    @Test
+    fun updateWithNullBook() {
+        val exception: Exception = assertThrows (
+            RequiredObjectIsNullException::class.java
+        ) { service.update(null) }
+
+        assertTrue(exception.message.toString().contains("The input object is null"))
+    }
+}
