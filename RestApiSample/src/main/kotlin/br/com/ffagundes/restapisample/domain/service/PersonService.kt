@@ -45,8 +45,8 @@ class PersonService {
         val entity: Person = DozerMapper.parseObject(person, Person::class.java)
         val personVO: PersonVO = DozerMapper.parseObject(personRepository.save(entity),PersonVO::class.java)
         val withSelRel = linkTo(PersonController::class.java).slash(personVO.key).withSelfRel()
-        person.add(withSelRel)
-        return person
+        personVO.add(withSelRel)
+        return personVO
     }
 
     fun createV2(personVO: PersonVOV2) : PersonVOV2 {

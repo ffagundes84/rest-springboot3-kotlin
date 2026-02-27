@@ -15,3 +15,8 @@ spring:
     show-sql: false
   jackson:
       property-naming-strategy: SNAKE_CASE
+  spring-doc:
+    path-to-match:
+      - /api/**/v1/**
+    swagger-ui:
+      use-root-path: true
