@@ -1,5 +1,6 @@
 #spring.application.name=RestApiSample
-
+cors:
+  originPatterns: http://localhost:8080,http://localhost:3000,https://google.com # origins permitidas por este serviço
 spring:
   application:
     name: RestApiSample
