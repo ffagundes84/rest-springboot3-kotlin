@@ -24,7 +24,7 @@ class DozerMapperTest {
         assertEquals("First Name Test - 0", output.firstName)
         assertEquals("Last Name Test - 0", output.lastName)
         assertEquals("Address Test - 0", output.address)
-        assertEquals("Male", output.gender)
+        assertEquals("Female", output.gender)
     }
 
     @Test
@@ -38,21 +38,21 @@ class DozerMapperTest {
         assertEquals("First Name Test - 0", outputZero.firstName)
         assertEquals("Last Name Test - 0", outputZero.lastName)
         assertEquals("Address Test - 0", outputZero.address)
-        assertEquals("Male", outputZero.gender)
+        assertEquals("Female", outputZero.gender)
 
         val outputSeven: PersonVO = outputList[7]
         assertEquals(7, outputSeven.key)
         assertEquals("First Name Test - 7", outputSeven.firstName)
         assertEquals("Last Name Test - 7", outputSeven.lastName)
         assertEquals("Address Test - 7", outputSeven.address)
-        assertEquals("Female", outputSeven.gender)
+        assertEquals("Male", outputSeven.gender)
 
         val outputTwelve: PersonVO = outputList[12]
         assertEquals(12, outputTwelve.key)
         assertEquals("First Name Test - 12", outputTwelve.firstName)
         assertEquals("Last Name Test - 12", outputTwelve.lastName)
         assertEquals("Address Test - 12", outputTwelve.address)
-        assertEquals("Male", outputTwelve.gender)
+        assertEquals("Female", outputTwelve.gender)
     }
 
     @Test
@@ -64,7 +64,7 @@ class DozerMapperTest {
         assertEquals("First Name Test - 0", output.firstName)
         assertEquals("Last Name Test - 0", output.lastName)
         assertEquals("Address Test - 0", output.address)
-        assertEquals("Male", output.gender)
+        assertEquals("Female", output.gender)
     }
 
     @Test
@@ -77,20 +77,20 @@ class DozerMapperTest {
         assertEquals("First Name Test - 0", outputZero.firstName)
         assertEquals("Last Name Test - 0", outputZero.lastName)
         assertEquals("Address Test - 0", outputZero.address)
-        assertEquals("Male", outputZero.gender)
+        assertEquals("Female", outputZero.gender)
 
         val outputSeven: Person = outputList[7]
         assertEquals(7, outputSeven.id)
         assertEquals("First Name Test - 7", outputSeven.firstName)
         assertEquals("Last Name Test - 7", outputSeven.lastName)
         assertEquals("Address Test - 7", outputSeven.address)
-        assertEquals("Female", outputSeven.gender)
+        assertEquals("Male", outputSeven.gender)
 
         val outputTwelve: Person = outputList[12]
         assertEquals(12, outputTwelve.id)
         assertEquals("First Name Test - 12", outputTwelve.firstName)
         assertEquals("Last Name Test - 12", outputTwelve.lastName)
         assertEquals("Address Test - 12", outputTwelve.address)
-        assertEquals("Male", outputTwelve.gender)
+        assertEquals("Female", outputTwelve.gender)
     }
 }
