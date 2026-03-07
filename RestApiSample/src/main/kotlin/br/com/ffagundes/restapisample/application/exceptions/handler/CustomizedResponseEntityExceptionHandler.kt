@@ -1,9 +1,6 @@
 package br.com.ffagundes.restapisample.application.exceptions.handler
 
-import br.com.ffagundes.restapisample.application.exceptions.ExceptionResponse
-import br.com.ffagundes.restapisample.application.exceptions.RequiredObjectIsNullException
-import br.com.ffagundes.restapisample.application.exceptions.ResourceNotFoundException
-import br.com.ffagundes.restapisample.application.exceptions.UnsupportedMathOperationException
+import br.com.ffagundes.restapisample.application.exceptions.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -47,5 +44,16 @@ class CustomizedResponseEntityExceptionHandler : ResponseEntityExceptionHandler(
             request.getDescription(true)
         )
         return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(InvalidJwtAuthenticationException::class)
+    fun handleInvalidJwtAuthenticationExceptions(ex: Exception, request: WebRequest) :
+            ResponseEntity<ExceptionResponse> {
+        val exceptionResponse = ExceptionResponse(
+            Date(),
+            ex.message,
+            request.getDescription(false)
+        )
+        return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.FORBIDDEN)
     }
 }
