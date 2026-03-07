@@ -1,4 +1,5 @@
 package br.com.ffagundes.restapisample.application.data.vo.v1
+
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.github.dozermapper.core.Mapping
