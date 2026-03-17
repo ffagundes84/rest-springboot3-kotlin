@@ -1,5 +1,8 @@
 package br.com.ffagundes.restapisample.integrationtests.vo
 
+import jakarta.xml.bind.annotation.XmlRootElement
+
+@XmlRootElement
 data class PersonVO(
     var id: Int = 0,
     var firstName: String = "",

@@ -1,6 +1,7 @@
 package br.com.ffagundes.restapisample.application.config
 
 import br.com.ffagundes.restapisample.application.serialization.converter.YamlJackson2HttpMessageConverter
+import br.com.ffagundes.restapisample.application.util.MediaType as MediaTypeDesc
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
@@ -11,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
 class WebConfig : WebMvcConfigurer {
-    private val MEDIA_TYPE_APPLICATION_YML = MediaType.valueOf("application/x-yaml")
+    private val MEDIA_TYPE_APPLICATION_YML = MediaType.valueOf(MediaTypeDesc.APPLICATION_YAML_VALUE)
 
     // Configuração CORS - carrega os valores que estão no application.yml
     @Value("\${cors.originPatterns:default}")

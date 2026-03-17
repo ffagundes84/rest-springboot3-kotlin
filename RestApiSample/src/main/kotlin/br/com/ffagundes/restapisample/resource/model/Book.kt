@@ -7,6 +7,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 import jakarta.persistence.Column
 import java.time.LocalDateTime
+import java.util.*
 
 @Entity
 @Table(name = "books")
@@ -19,7 +20,7 @@ data class Book(
     var author: String = "",
 
     @Column(name = "launch_date", nullable = true)
-    var launchDate: LocalDateTime? = LocalDateTime.now(),
+    var launchDate: Date? = null,
 
     @Column(nullable = false)
     var price: Double = 0.0,

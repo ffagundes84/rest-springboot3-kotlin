@@ -27,3 +27,7 @@ spring:
       - /auth/**
     swagger-ui:
       use-root-path: true
+logging:
+  level:
+    org.springframework.http.converter: TRACE
+    com.fasterxml.jackson: DEBUG

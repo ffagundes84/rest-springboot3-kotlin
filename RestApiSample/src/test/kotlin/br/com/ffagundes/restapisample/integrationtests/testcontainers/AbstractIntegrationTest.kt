@@ -36,7 +36,6 @@ open class AbstractIntegrationTest {
                     "spring.datasource.username", mySql.username,
                     "spring.datasource.password", mySql.password
                 )
-
         }
     }
 }

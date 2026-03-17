@@ -1,10 +1,7 @@
 package br.com.ffagundes.restapisample.application.controller
 
 import br.com.ffagundes.restapisample.application.data.vo.v1.BookVO
-import br.com.ffagundes.restapisample.application.data.vo.v1.PersonVO
 import br.com.ffagundes.restapisample.domain.service.BookService
-import br.com.ffagundes.restapisample.application.data.vo.v2.PersonVO as PersonVOV2
-import br.com.ffagundes.restapisample.domain.service.PersonService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -15,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.util.logging.Logger
 
 @RestController
 @RequestMapping("/api/book/v1")
@@ -22,6 +20,8 @@ import org.springframework.web.bind.annotation.*
 class BookController {
     @Autowired
     private lateinit var service: BookService
+
+    private val logger = Logger.getLogger(BookController::class.java.name)
 
     @GetMapping(produces = [
         MediaType.APPLICATION_JSON_VALUE,
@@ -32,13 +32,9 @@ class BookController {
     @Operation(summary = "Finds all books", description = "Finds all books",
         tags = ["books"],
         responses = [
-            ApiResponse(
-                description = "Success",
-                responseCode = "200",
-                content = [
-                    Content(array = ArraySchema(schema = Schema(implementation = BookVO::class)))
-                ]
-            ),
+            ApiResponse(description = "Success",responseCode = "200",content = [
+                Content(array = ArraySchema(schema = Schema(implementation = BookVO::class)))
+            ]),
             ApiResponse(description = "No Content", responseCode = "204", content = [
                 Content(schema = Schema(implementation = Unit::class))
             ]),
@@ -57,7 +53,11 @@ class BookController {
         ]
         )
     fun findAll(): List<BookVO> {
+        logger.info("finding all books")
         return service.findAll()
+            .also {
+                logger.info("returning all books: ${it.size}")
+            }
     }
 
     @GetMapping(value = ["/{id}"],
@@ -70,13 +70,9 @@ class BookController {
     @Operation(summary = "Finds a Book", description = "Finds a Book",
         tags = ["books"],
         responses = [
-            ApiResponse(
-                description = "Success",
-                responseCode = "200",
-                content = [
-                    Content(schema = Schema(implementation = BookVO::class))
-                ]
-            ),
+            ApiResponse(description = "Success",responseCode = "200",content = [
+                Content(schema = Schema(implementation = BookVO::class))
+            ]),
             ApiResponse(description = "No Content", responseCode = "204", content = [
                 Content(schema = Schema(implementation = Unit::class))
             ]),
@@ -112,13 +108,9 @@ class BookController {
     @Operation(summary = "Adds a new Book", description = "Adds a new Book",
         tags = ["books"],
         responses = [
-            ApiResponse(
-                description = "Success",
-                responseCode = "200",
-                content = [
-                    Content(schema = Schema(implementation = BookVO::class))
-                ]
-            ),
+            ApiResponse(description = "Success",responseCode = "200",content = [
+                Content(schema = Schema(implementation = BookVO::class))
+            ]),
             ApiResponse(description = "Bad Request", responseCode = "400", content = [
                 Content(schema = Schema(implementation = Unit::class))
             ]),
@@ -131,6 +123,7 @@ class BookController {
         ]
     )
     fun create(@RequestBody book: BookVO): BookVO {
+        logger.info("receiving one book with title: ${book.title}")
         return service.create(book)
     }
 
@@ -148,13 +141,9 @@ class BookController {
     @Operation(summary = "Updates a books's information", description = "Updates a book's information",
         tags = ["books"],
         responses = [
-            ApiResponse(
-                description = "Success",
-                responseCode = "200",
-                content = [
-                    Content(schema = Schema(implementation = BookVO::class))
-                ]
-            ),
+            ApiResponse(description = "Success",responseCode = "200",content = [
+                Content(schema = Schema(implementation = BookVO::class))
+            ]),
             ApiResponse(description = "No Content", responseCode = "204", content = [
                 Content(schema = Schema(implementation = Unit::class))
             ]),
