@@ -5,7 +5,7 @@ import br.com.ffagundes.restapisample.application.data.vo.v1.PersonVO
 import br.com.ffagundes.restapisample.resource.model.Book
 import br.com.ffagundes.restapisample.resource.model.Person
 import java.time.LocalDateTime
-import java.util.ArrayList
+import java.util.*
 
 class MockBook {
     fun mockEntity(): Book {
@@ -32,7 +32,7 @@ class MockBook {
         return books
     }
 
-    fun mockEntity(number: Int, date: LocalDateTime = LocalDateTime.now()): Book {
+    fun mockEntity(number: Int, date: Date = Date()): Book {
         val book = Book()
         book.id = number
         book.author = "Author $number"
@@ -42,7 +42,7 @@ class MockBook {
         return book
     }
 
-    fun mockVO(number: Int, date: LocalDateTime = LocalDateTime.now()): BookVO {
+    fun mockVO(number: Int, date: Date = Date()): BookVO {
         val book = BookVO()
         book.key = number
         book.author = "Author $number"

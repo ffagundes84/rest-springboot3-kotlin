@@ -7,14 +7,14 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
-// Para execução desse teste, o Docker precisa estar inicializado!
+// Para execução desses testes, o Docker precisa estar inicializado!
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class SwaggerIntegrationTest() : AbstractIntegrationTest() {
 
 	@Test
 	fun shouldDisplaySwaggerUiPage() {
 		val content = given()
-			.basePath(TestConfigs.BASE_PATH_PREFIX)
+			.basePath(TestConfigs.BASE_PATH_PREFIX_SWAGGER)
 			.port(TestConfigs.SERVER_PORT)
 			.`when`()
 			.get() // verbo a ser executado na chamada

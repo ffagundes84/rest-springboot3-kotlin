@@ -37,7 +37,7 @@ class BookServiceTest {
     @Test
     fun findById() {
         val id = 1
-        val date = LocalDateTime.now()
+        val date = Date()
         val book = inputObject.mockEntity(id)
 
         `when`(repository.findById(id)).thenReturn(Optional.of(book))
@@ -50,14 +50,14 @@ class BookServiceTest {
         assertTrue(result.links.toString().contains("</api/book/v1/1>;rel=\"self\""))
         assertEquals("Author 1", result.author)
         assertEquals("Title 1", result.title)
-        assertEquals(date.toLocalDate(), result.launchDate.toLocalDate())
+        assertEquals(date, result.launchDate)
         assertEquals("1.0".toDouble(), result.price)
         assertEquals("1".toInt(), result.key)
     }
 
     @Test
     fun findAll() {
-        val date = LocalDateTime.now()
+        val date = Date()
         val sourceList = inputObject.mockEntityList()
         `when`(repository.findAll()).thenReturn(sourceList)
 
@@ -72,7 +72,7 @@ class BookServiceTest {
         assertTrue(bookOne.links.toString().contains("</api/book/v1/1>;rel=\"self\""))
         assertEquals("Author 1", bookOne.author)
         assertEquals("Title 1", bookOne.title)
-        assertEquals(date.toLocalDate(), bookOne.launchDate.toLocalDate())
+        assertEquals(date, bookOne.launchDate)
         assertEquals("1.0".toDouble(), bookOne.price)
         assertEquals("1".toInt(), bookOne.key)
 
@@ -83,7 +83,7 @@ class BookServiceTest {
         assertTrue(bookFour.links.toString().contains("</api/book/v1/4>;rel=\"self\""))
         assertEquals("Author 4", bookFour.author)
         assertEquals("Title 4", bookFour.title)
-        assertEquals(date.toLocalDate(), bookFour.launchDate.toLocalDate())
+        assertEquals(date, bookFour.launchDate)
         assertEquals("4.0".toDouble(), bookFour.price)
         assertEquals("4".toInt(), bookFour.key)
     }
@@ -91,7 +91,7 @@ class BookServiceTest {
     @Test
     fun create() {
         val id = 1
-        val date = LocalDateTime.now()
+        val date = Date()
         val entity = inputObject.mockEntity(id, date)
         val persisted = entity.copy()
 
@@ -106,7 +106,7 @@ class BookServiceTest {
         assertTrue(result.links.toString().contains("</api/book/v1/1>;rel=\"self\""))
         assertEquals("Author 1", result.author)
         assertEquals("Title 1", result.title)
-        assertEquals(date.toLocalDate(), result.launchDate.toLocalDate())
+        assertEquals(date, result.launchDate)
         assertEquals("1.0".toDouble(), result.price)
         assertEquals("1".toInt(), result.key)
     }
@@ -114,7 +114,7 @@ class BookServiceTest {
     @Test
     fun update() {
         val id = 1
-        val date = LocalDateTime.now()
+        val date = Date()
         val entity = inputObject.mockEntity(id, date)
         val persisted = entity.copy()
 
@@ -130,7 +130,7 @@ class BookServiceTest {
         assertTrue(result.links.toString().contains("</api/book/v1/1>;rel=\"self\""))
         assertEquals("Author 1", result.author)
         assertEquals("Title 1", result.title)
-        assertEquals(date.toLocalDate(), result.launchDate.toLocalDate())
+        assertEquals(date, result.launchDate)
         assertEquals("1.0".toDouble(), result.price)
         assertEquals("1".toInt(), result.key)
     }

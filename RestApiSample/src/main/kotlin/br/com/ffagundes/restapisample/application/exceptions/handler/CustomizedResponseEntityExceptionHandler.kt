@@ -16,6 +16,8 @@ class CustomizedResponseEntityExceptionHandler : ResponseEntityExceptionHandler(
 
     @ExceptionHandler(Exception::class)
     fun handlerGenericException(exception: Exception, request: WebRequest) : ResponseEntity<ExceptionResponse> {
+        exception.printStackTrace()
+
         val exceptionResponse = ExceptionResponse(
             Date(),
             exception.message,
