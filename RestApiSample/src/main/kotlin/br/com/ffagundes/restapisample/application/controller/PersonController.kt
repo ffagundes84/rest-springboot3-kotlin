@@ -30,13 +30,9 @@ class PersonController {
     @Operation(summary = "Finds all people", description = "Finds all people",
         tags = ["People"],
         responses = [
-            ApiResponse(
-                description = "Success",
-                responseCode = "200",
-                content = [
-                    Content(array = ArraySchema(schema = Schema(implementation = PersonVO::class)))
-                ]
-            ),
+            ApiResponse(description = "Success", responseCode = "200", content = [
+                Content(array = ArraySchema(schema = Schema(implementation = PersonVO::class)))
+            ]),
             ApiResponse(description = "No Content", responseCode = "204", content = [
                 Content(schema = Schema(implementation = Unit::class))
             ]),
@@ -68,13 +64,9 @@ class PersonController {
     @Operation(summary = "Finds a Person", description = "Finds a Person",
         tags = ["People"],
         responses = [
-            ApiResponse(
-                description = "Success",
-                responseCode = "200",
-                content = [
-                    Content(schema = Schema(implementation = PersonVO::class))
-                ]
-            ),
+            ApiResponse(description = "Success", responseCode = "200", content = [
+                Content(schema = Schema(implementation = PersonVO::class))
+            ]),
             ApiResponse(description = "No Content", responseCode = "204", content = [
                 Content(schema = Schema(implementation = Unit::class))
             ]),
@@ -110,13 +102,9 @@ class PersonController {
     @Operation(summary = "Adds a new Person", description = "Adds a new Person",
         tags = ["People"],
         responses = [
-            ApiResponse(
-                description = "Success",
-                responseCode = "200",
-                content = [
-                    Content(schema = Schema(implementation = PersonVO::class))
-                ]
-            ),
+            ApiResponse(description = "Success", responseCode = "200", content = [
+                Content(schema = Schema(implementation = PersonVO::class))
+            ]),
             ApiResponse(description = "Bad Request", responseCode = "400", content = [
                 Content(schema = Schema(implementation = Unit::class))
             ]),
@@ -146,13 +134,9 @@ class PersonController {
     @Operation(summary = "Updates a person's information", description = "Updates a person's information",
         tags = ["People"],
         responses = [
-            ApiResponse(
-                description = "Success",
-                responseCode = "200",
-                content = [
-                    Content(schema = Schema(implementation = PersonVO::class))
-                ]
-            ),
+            ApiResponse(description = "Success", responseCode = "200", content = [
+                Content(schema = Schema(implementation = PersonVO::class))
+            ]),
             ApiResponse(description = "No Content", responseCode = "204", content = [
                 Content(schema = Schema(implementation = Unit::class))
             ]),
@@ -172,6 +156,40 @@ class PersonController {
     )
     fun update(@RequestBody person: PersonVO): PersonVO {
         return service.update(person)
+    }
+
+    @PatchMapping(value = ["/{id}"],
+        produces = [
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_YAML_VALUE,
+            "application/x-yaml"
+        ])
+    @Operation(summary = "Disable a Person", description = "Disable a Person",
+        tags = ["People"],
+        responses = [
+            ApiResponse(description = "Success", responseCode = "200", content = [
+                Content(schema = Schema(implementation = PersonVO::class))
+            ]),
+            ApiResponse(description = "No Content", responseCode = "204", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ]),
+            ApiResponse(description = "Bad Request", responseCode = "400", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ]),
+            ApiResponse(description = "Unauthorized", responseCode = "401", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ]),
+            ApiResponse(description = "Not Found", responseCode = "404", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ]),
+            ApiResponse(description = "Internal Error", responseCode = "500", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ]),
+        ]
+    )
+    fun disableById(@PathVariable("id") id: Int) : PersonVO {
+        return service.disablePerson(id)
     }
 
     @DeleteMapping(value = ["/{id}"],

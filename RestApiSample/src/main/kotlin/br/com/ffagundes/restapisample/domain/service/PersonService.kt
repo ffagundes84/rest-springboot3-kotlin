@@ -68,6 +68,18 @@ class PersonService {
 
         return personVO
     }
+
+
+    fun disablePerson(id: Int): PersonVO {
+        logger.info("disabling person by id: $id")
+        personRepository.disablePerson(id)
+        val person = personRepository.findById(id)
+            .orElseThrow {ResourceNotFoundException("No record found for id $id")}
+        val personVO = DozerMapper.parseObject(person, PersonVO::class.java)
+        val withSelRel = linkTo(PersonController::class.java).slash(personVO.key).withSelfRel()
+        personVO.add(withSelRel)
+        return personVO
+    }
     fun delete(id: Int) {
         logger.info("deleting one person with id: $id")
         val entity = personRepository.findById(id)
