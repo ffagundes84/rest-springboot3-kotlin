@@ -10,6 +10,12 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.hateoas.EntityModel
+import org.springframework.hateoas.PagedModel
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -50,8 +56,55 @@ class PersonController {
             ])
         ]
         )
-    fun findAll(): List<PersonVO> {
-        return service.findAll()
+    fun findAll(@RequestParam(value = "page", defaultValue = "0") page: Int,
+                @RequestParam(value = "size", defaultValue = "10") size: Int,
+                @RequestParam(value = "direction", defaultValue = "asc") direction: String
+    ): ResponseEntity<PagedModel<EntityModel<PersonVO>>> {
+        val sortDirection: Sort.Direction =
+            if(direction.equals("desc", ignoreCase = true)) Sort.Direction.DESC else Sort.Direction.ASC
+        val pageable: Pageable = PageRequest.of(page, size, Sort.by(sortDirection, "firstName"))
+        return ResponseEntity.ok(service.findAll(pageable))
+    }
+
+    @GetMapping(value = ["/findByFirstName/{firstName}"],
+        produces = [
+        MediaType.APPLICATION_JSON_VALUE,
+        MediaType.APPLICATION_XML_VALUE,
+        MediaType.APPLICATION_YAML_VALUE,
+        "application/x-yaml"
+    ])
+    @Operation(summary = "Finds people by First Name", description = "Finds all people",
+        tags = ["People"],
+        responses = [
+            ApiResponse(description = "Success", responseCode = "200", content = [
+                Content(array = ArraySchema(schema = Schema(implementation = PersonVO::class)))
+            ]),
+            ApiResponse(description = "No Content", responseCode = "204", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ]),
+            ApiResponse(description = "Bad Request", responseCode = "400", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ]),
+            ApiResponse(description = "Unauthorized", responseCode = "401", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ]),
+            ApiResponse(description = "Not Found", responseCode = "404", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ]),
+            ApiResponse(description = "Internal Error", responseCode = "500", content = [
+                Content(schema = Schema(implementation = Unit::class))
+            ])
+        ]
+    )
+    fun findByName(@PathVariable(value = "firstName") firstName: String,
+                @RequestParam(value = "page", defaultValue = "0") page: Int,
+                @RequestParam(value = "size", defaultValue = "10") size: Int,
+                @RequestParam(value = "direction", defaultValue = "asc") direction: String
+    ): ResponseEntity<PagedModel<EntityModel<PersonVO>>> {
+        val sortDirection: Sort.Direction =
+            if(direction.equals("desc", ignoreCase = true)) Sort.Direction.DESC else Sort.Direction.ASC
+        val pageable: Pageable = PageRequest.of(page, size, Sort.by(sortDirection, "firstName"))
+        return ResponseEntity.ok(service.findByName(firstName, pageable))
     }
 
     @GetMapping(value = ["/{id}"],

@@ -5,6 +5,7 @@ import br.com.ffagundes.restapisample.integrationtests.testcontainers.AbstractIn
 import br.com.ffagundes.restapisample.integrationtests.vo.AccountCredentialsVO
 import br.com.ffagundes.restapisample.integrationtests.vo.PersonVO
 import br.com.ffagundes.restapisample.integrationtests.vo.TokenVO
+import br.com.ffagundes.restapisample.integrationtests.vo.wrapper.WrapperPersonVO
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.restassured.RestAssured.given
@@ -13,9 +14,7 @@ import io.restassured.filter.log.LogDetail
 import io.restassured.filter.log.RequestLoggingFilter
 import io.restassured.filter.log.ResponseLoggingFilter
 import io.restassured.specification.RequestSpecification
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
@@ -23,6 +22,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.boot.test.context.SpringBootTest
+
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
@@ -217,6 +217,13 @@ class PersonControllerJsonTest : AbstractIntegrationTest() {
         val content = given()
             .spec(specification)
             .contentType(TestConfigs.CONTENT_TYPE_JSON)
+            .queryParams(
+                mapOf (
+                    "page" to 0,
+                    "size" to 6,
+                    "direction" to "asc"
+                )
+            )
             .`when`()
             .get()
             .then()
@@ -225,20 +232,21 @@ class PersonControllerJsonTest : AbstractIntegrationTest() {
             .body()
             .asString()
 
-        val people = objectMapper.readValue(content, Array<PersonVO>::class.java)
+        val wrapper = objectMapper.readValue(content, WrapperPersonVO::class.java)
+        val people = wrapper.embedded!!.persons
 
-        val item1 = people[0]
+        val item1 = people?.get(0)
 
-        assertNotNull(item1.id)
+        assertNotNull(item1!!.id)
         assertNotNull(item1.firstName)
         assertNotNull(item1.lastName)
         assertNotNull(item1.address)
         assertNotNull(item1.gender)
-        assertEquals("Maria das Rosas", item1.firstName)
-        assertEquals("Lima", item1.lastName)
-        assertEquals("Rua das rosas, 456", item1.address)
-        assertEquals("female", item1.gender)
-        assertEquals(true, item1.enabled)
+        assertEquals("Aaron", item1.firstName)
+        assertEquals("Oddy", item1.lastName)
+        assertEquals("01 Colorado Court", item1.address)
+        assertEquals("Male", item1.gender)
+        assertEquals(false, item1.enabled)
 
         val item2 = people[4]
 
@@ -247,15 +255,54 @@ class PersonControllerJsonTest : AbstractIntegrationTest() {
         assertNotNull(item2.lastName)
         assertNotNull(item2.address)
         assertNotNull(item2.gender)
-        assertEquals("Ana Maria", item2.firstName)
-        assertEquals("Castro Silva", item2.lastName)
-        assertEquals("Avenida Osmar Lucas, 780", item2.address)
-        assertEquals("female", item2.gender)
+        assertEquals("Abran", item2.firstName)
+        assertEquals("Longworthy", item2.lastName)
+        assertEquals("8 Darwin Alley", item2.address)
+        assertEquals("Male", item2.gender)
         assertEquals(true, item2.enabled)
     }
 
     @Test
     @Order(7)
+    fun testFindByName() {
+        val findByName = "amue"
+        val content = given()
+            .spec(specification)
+            .contentType(TestConfigs.CONTENT_TYPE_JSON)
+            .pathParam("firstName", findByName)
+            .queryParams(
+                mapOf (
+                    "page" to 0,
+                    "size" to 6,
+                    "direction" to "asc"
+                )
+            )
+            .`when`() ["/findByFirstName/{firstName}"]
+            .then()
+            .statusCode(200)
+            .extract()
+            .body()
+            .asString()
+
+        val wrapper = objectMapper.readValue(content, WrapperPersonVO::class.java)
+        val people = wrapper.embedded!!.persons
+
+        val item1 = people?.get(0)
+
+        assertNotNull(item1!!.id)
+        assertNotNull(item1.firstName)
+        assertNotNull(item1.lastName)
+        assertNotNull(item1.address)
+        assertNotNull(item1.gender)
+        assertEquals("Samuel Rosa", item1.firstName)
+        assertEquals("Soares", item1.lastName)
+        assertEquals("Rua da Lagoa, 6578 - Centro", item1.address)
+        assertEquals("Male", item1.gender)
+        assertEquals(true, item1.enabled)
+    }
+
+    @Test
+    @Order(8)
     fun testFindAllWithoutToken() {
 
         val specificationWithoutToken: RequestSpecification = RequestSpecBuilder()

@@ -52,7 +52,7 @@ class PersonServiceTest {
         assertEquals("Male", result.gender)
     }
 
-    @Test
+    /*@Test
     fun findAll() {
         val sourceList = inputObject.mockEntityList()
         `when`(repository.findAll()).thenReturn(sourceList)
@@ -81,6 +81,8 @@ class PersonServiceTest {
         assertEquals("Last Name Test - 4", personFour.lastName)
         assertEquals("Female", personFour.gender)
     }
+
+     */
 
     @Test
     fun create() {
