@@ -10,6 +10,11 @@ import br.com.ffagundes.restapisample.application.mapper.custom.PersonMapper
 import br.com.ffagundes.restapisample.resource.model.Person
 import br.com.ffagundes.restapisample.resource.repository.PersonRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PagedResourcesAssembler
+import org.springframework.hateoas.EntityModel
+import org.springframework.hateoas.PagedModel
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.stereotype.Service
 import java.util.logging.Logger
@@ -18,6 +23,9 @@ import java.util.logging.Logger
 class PersonService {
     @Autowired
     private lateinit var personRepository: PersonRepository
+    @Autowired
+    private lateinit var pagedResourceAssembler: PagedResourcesAssembler<PersonVO>
+
     private val logger = Logger.getLogger(PersonService::class.java.name)
     fun findById(id: Int): PersonVO {
         logger.info("finding person by id: $id")
@@ -29,14 +37,21 @@ class PersonService {
         return personVO
     }
 
-    fun findAll(): List<PersonVO> {
+    // fun findAll(pageable: Pageable): Page<PersonVO> { // Assim não retorna link para outras páginas da pesquisa 
+    fun findAll(pageable: Pageable): PagedModel<EntityModel<PersonVO>> {
         logger.info("finding all")
-        val persons = personRepository.findAll()
-        val personsVO = DozerMapper.parseListObjects(persons, PersonVO::class.java)
-        personsVO.map {
-            it.add(linkTo(PersonController::class.java).slash(it.key).withSelfRel())
-        }
-        return personsVO
+        val persons = personRepository.findAll(pageable)
+        val personsVO = persons.map { person -> DozerMapper.parseObject(person, PersonVO::class.java) }
+        personsVO.map { it.add(linkTo(PersonController::class.java).slash(it.key).withSelfRel()) }
+        return pagedResourceAssembler.toModel(personsVO)
+    }
+
+    fun findByName(firstName: String, pageable: Pageable): PagedModel<EntityModel<PersonVO>> {
+        logger.info("finding by name: $firstName")
+        val persons = personRepository.findByName(firstName, pageable)
+        val personsVO = persons.map { person -> DozerMapper.parseObject(person, PersonVO::class.java) }
+        personsVO.map { it.add(linkTo(PersonController::class.java).slash(it.key).withSelfRel()) }
+        return pagedResourceAssembler.toModel(personsVO)
     }
 
     fun create(person: PersonVO?) : PersonVO {

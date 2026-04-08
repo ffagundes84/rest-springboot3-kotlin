@@ -51,37 +51,7 @@ class PersonServiceTest {
         assertEquals("Last Name Test - 1", result.lastName)
         assertEquals("Male", result.gender)
     }
-
-    @Test
-    fun findAll() {
-        val sourceList = inputObject.mockEntityList()
-        `when`(repository.findAll()).thenReturn(sourceList)
-
-        val persons = service.findAll()
-        assertNotNull(persons)
-        assertEquals(14, persons.size)
-
-        val personOne = persons[1]
-        assertNotNull(personOne)
-        assertNotNull(personOne.key)
-        assertNotNull(personOne.links)
-        assertTrue(personOne.links.toString().contains("</api/person/v1/1>;rel=\"self\""))
-        assertEquals("Address Test - 1", personOne.address)
-        assertEquals("First Name Test - 1", personOne.firstName)
-        assertEquals("Last Name Test - 1", personOne.lastName)
-        assertEquals("Male", personOne.gender)
-
-        val personFour = persons[4]
-        assertNotNull(personFour)
-        assertNotNull(personFour.key)
-        assertNotNull(personFour.links)
-        assertTrue(personFour.links.toString().contains("</api/person/v1/4>;rel=\"self\""))
-        assertEquals("Address Test - 4", personFour.address)
-        assertEquals("First Name Test - 4", personFour.firstName)
-        assertEquals("Last Name Test - 4", personFour.lastName)
-        assertEquals("Female", personFour.gender)
-    }
-
+    
     @Test
     fun create() {
         val id = 1

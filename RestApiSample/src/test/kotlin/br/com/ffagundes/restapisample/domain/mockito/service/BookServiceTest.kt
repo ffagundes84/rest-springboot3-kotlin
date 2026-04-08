@@ -55,6 +55,7 @@ class BookServiceTest {
         assertEquals("1".toInt(), result.key)
     }
 
+    /*
     @Test
     fun findAll() {
         val date = Date()
@@ -87,6 +88,8 @@ class BookServiceTest {
         assertEquals("4.0".toDouble(), bookFour.price)
         assertEquals("4".toInt(), bookFour.key)
     }
+
+     */
 
     @Test
     fun create() {

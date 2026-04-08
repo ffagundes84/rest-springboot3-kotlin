@@ -8,6 +8,10 @@ import br.com.ffagundes.restapisample.application.mapper.DozerMapper
 import br.com.ffagundes.restapisample.resource.model.Book
 import br.com.ffagundes.restapisample.resource.repository.BookRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PagedResourcesAssembler
+import org.springframework.hateoas.EntityModel
+import org.springframework.hateoas.PagedModel
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.stereotype.Service
 import java.util.logging.Logger
@@ -16,6 +20,10 @@ import java.util.logging.Logger
 class BookService {
     @Autowired
     private lateinit var bookRepository: BookRepository
+
+    @Autowired
+    private lateinit var pageResourceAssembler: PagedResourcesAssembler<BookVO>
+
     private val logger = Logger.getLogger(BookService::class.java.name)
     fun findById(id: Int): BookVO {
         logger.info("finding book by id: $id")
@@ -27,14 +35,14 @@ class BookService {
         return bookVO
     }
 
-    fun findAll(): List<BookVO> {
+    fun findAll(pageable: Pageable): PagedModel<EntityModel<BookVO>> {
         logger.info("finding all")
-        val books = bookRepository.findAll()
-        val booksVO = DozerMapper.parseListObjects(books, BookVO::class.java)
+        val books = bookRepository.findAll(pageable)
+        val booksVO = books.map { DozerMapper.parseObject(it, BookVO::class.java) }
         booksVO.map {
             it.add(linkTo(BookController::class.java).slash(it.key).withSelfRel())
         }
-        return booksVO
+        return pageResourceAssembler.toModel(booksVO)
     }
 
     fun create(book: BookVO?) : BookVO {
