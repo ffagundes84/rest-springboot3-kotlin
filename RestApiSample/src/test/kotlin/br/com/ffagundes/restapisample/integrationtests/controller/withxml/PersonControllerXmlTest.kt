@@ -323,7 +323,39 @@ class PersonControllerXmlTest : AbstractIntegrationTest() {
             .extract()
             .body()
             .asString()
+    }
 
+    @Test
+    @Order(9)
+    fun testHATEOAS() {
+        val content = given()
+            .spec(specification)
+            .contentType(TestConfigs.CONTENT_TYPE_XML)
+            .queryParams(
+                mapOf (
+                    "page" to 0,
+                    "size" to 6,
+                    "direction" to "asc"
+                )
+            )
+            .`when`()
+            .get()
+            .then()
+            .statusCode(200)
+            .extract()
+            .body()
+            .asString()
+
+        assertNotNull(content)
+        assertTrue(content.contains("""_links":{"self":{"href":"http://localhost:8888/api/person/v1/700"}}"""))
+        assertTrue(content.contains("""_links":{"self":{"href":"http://localhost:8888/api/person/v1/379"}}"""))
+        assertTrue(content.contains("""_links":{"self":{"href":"http://localhost:8888/api/person/v1/191"}}"""))
+        assertTrue(content.contains("""_links":{"self":{"href":"http://localhost:8888/api/person/v1/447"}}"""))
+        assertTrue(content.contains("""first":{"href":"http://localhost:8888/api/person/v1?direction=asc&page=0&size=6&sort=firstName,asc"}"""))
+        assertTrue(content.contains("""self":{"href":"http://localhost:8888/api/person/v1?direction=asc&page=0&size=6&sort=firstName,asc"}"""))
+        assertTrue(content.contains("""next":{"href":"http://localhost:8888/api/person/v1?direction=asc&page=1&size=6&sort=firstName,asc"}"""))
+        assertTrue(content.contains("""last":{"href":"http://localhost:8888/api/person/v1?direction=asc&page=167&size=6&sort=firstName,asc"}"""))
+        assertTrue(content.contains("""page":{"size":6,"totalElements":1006,"totalPages":168,"number":0}"""))
     }
 
     private fun mockPerson() {
