@@ -1,5 +1,7 @@
 cors:
   originPatterns: http://localhost:8080,http://localhost:3000,https://google.com
+file:
+  upload-dir: /application/output
 security:
   jwt:
     token:
@@ -14,6 +16,12 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: false
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB # armazenamento em memória, a partir disso gravará em disco
+      max-file-size: 500MB
+      max-request-size: 215MB
   spring-doc:
     path-to-match:
       - /api/**/v1/**

@@ -10,7 +10,6 @@ import br.com.ffagundes.restapisample.application.mapper.custom.PersonMapper
 import br.com.ffagundes.restapisample.resource.model.Person
 import br.com.ffagundes.restapisample.resource.repository.PersonRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PagedResourcesAssembler
 import org.springframework.hateoas.EntityModel
