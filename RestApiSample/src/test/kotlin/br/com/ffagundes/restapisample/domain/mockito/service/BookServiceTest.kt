@@ -17,7 +17,6 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.jupiter.MockitoExtension
-import java.time.LocalDateTime
 import java.util.*
 
 @ExtendWith(MockitoExtension::class)
@@ -54,42 +53,6 @@ class BookServiceTest {
         assertEquals("1.0".toDouble(), result.price)
         assertEquals("1".toInt(), result.key)
     }
-
-    /*
-    @Test
-    fun findAll() {
-        val date = Date()
-        val sourceList = inputObject.mockEntityList()
-        `when`(repository.findAll()).thenReturn(sourceList)
-
-        val books = service.findAll()
-        assertNotNull(books)
-        assertEquals(11, books.size)
-
-        val bookOne = books[1]
-        assertNotNull(bookOne)
-        assertNotNull(bookOne.key)
-        assertNotNull(bookOne.links)
-        assertTrue(bookOne.links.toString().contains("</api/book/v1/1>;rel=\"self\""))
-        assertEquals("Author 1", bookOne.author)
-        assertEquals("Title 1", bookOne.title)
-        assertEquals(date, bookOne.launchDate)
-        assertEquals("1.0".toDouble(), bookOne.price)
-        assertEquals("1".toInt(), bookOne.key)
-
-        val bookFour = books[4]
-        assertNotNull(bookFour)
-        assertNotNull(bookFour.key)
-        assertNotNull(bookFour.links)
-        assertTrue(bookFour.links.toString().contains("</api/book/v1/4>;rel=\"self\""))
-        assertEquals("Author 4", bookFour.author)
-        assertEquals("Title 4", bookFour.title)
-        assertEquals(date, bookFour.launchDate)
-        assertEquals("4.0".toDouble(), bookFour.price)
-        assertEquals("4".toInt(), bookFour.key)
-    }
-
-     */
 
     @Test
     fun create() {
