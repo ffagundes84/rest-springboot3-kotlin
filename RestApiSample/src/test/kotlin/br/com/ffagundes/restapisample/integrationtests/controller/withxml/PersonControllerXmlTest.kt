@@ -355,7 +355,7 @@ class PersonControllerXmlTest : AbstractIntegrationTest() {
         assertTrue(content.contains("""self":{"href":"http://localhost:8888/api/person/v1?direction=asc&page=0&size=6&sort=firstName,asc"}"""))
         assertTrue(content.contains("""next":{"href":"http://localhost:8888/api/person/v1?direction=asc&page=1&size=6&sort=firstName,asc"}"""))
         assertTrue(content.contains("""last":{"href":"http://localhost:8888/api/person/v1?direction=asc&page=167&size=6&sort=firstName,asc"}"""))
-        assertTrue(content.contains("""page":{"size":6,"totalElements":1006,"totalPages":168,"number":0}"""))
+        assertTrue(content.contains("""page":{"size":6,"totalElements":1007,"totalPages":168,"number":0}"""))
     }
 
     private fun mockPerson() {
